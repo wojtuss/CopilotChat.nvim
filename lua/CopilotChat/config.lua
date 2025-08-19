@@ -53,6 +53,8 @@
 ---@field functions table<string, CopilotChat.config.functions.Function>?
 ---@field prompts table<string, CopilotChat.config.prompts.Prompt|string>?
 ---@field mappings CopilotChat.config.mappings?
+---@field github_instance_url string?
+---@field github_instance_api_url string?
 return {
 
   -- Shared config starts here (can be passed to functions at runtime and configured via setup function)
@@ -107,6 +109,9 @@ return {
 
   selection = 'visual', -- Selection source
   chat_autocomplete = true, -- Enable chat autocompletion (when disabled, requires manual `mappings.complete` trigger)
+
+  github_instance_url = 'github.com', -- github instance main address w/o protocol prefix (without "https://"). E.g. a github-enterprise address might look like this: "mycorp.ghe.com"
+  github_instance_api_url = 'api.github.com', -- github instance api address w/o protocol prefix (without "https://"). E.g.: "api.mycorp.ghe.com"
 
   log_path = vim.fn.stdpath('state') .. '/CopilotChat.log', -- Default path to log file
   history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- Default path to stored history
