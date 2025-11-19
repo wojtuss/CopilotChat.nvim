@@ -280,8 +280,6 @@ M.copilot = {
       error(err)
     end
 
-    log.info('get_headers response: ' .. utils.to_string(response))
-
     if response.body and response.body.endpoints and response.body.endpoints.api then
       log.info('get_headers ok, authenticated. Use api endpoint: ' .. response.body.endpoints.api)
       M.endpoints_api = response.body.endpoints.api
@@ -358,7 +356,11 @@ M.copilot = {
   get_models = function(headers)
     log.info('getting models .. headers: ' .. utils.to_string(headers))
     log.info('endpoints_api: ' .. M.endpoints_api)
-    local response, err = curl.get(M.endpoints_api .. '/models', {
+    local models_url = M.endpoints_api .. '/models'
+    log.info('get_models - get ' .. models_url)
+    log.info('get_models - headers: ' .. utils.to_string(headers))
+    -- local response, err = curl.get(M.endpoints_api .. '/models', {
+    local response, err = curl.get(models_url, {
       json_response = true,
       headers = headers,
     })

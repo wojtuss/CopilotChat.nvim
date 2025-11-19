@@ -241,6 +241,7 @@ function Client:models()
           return {}
         end
 
+        log.info('headers:', headers_or_err)
         local ok, models_or_err = pcall(provider.get_models, headers_or_err)
         if not ok then
           log.error('Failed to fetch models from ' .. provider_name .. ': ' .. models_or_err)
