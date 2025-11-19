@@ -272,7 +272,8 @@ M.copilot = {
     local response, err = curl.get(url, {
       json_response = true,
       headers = {
-        ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
+        -- ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
+        ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
       },
     })
 
@@ -296,7 +297,8 @@ M.copilot = {
 
     log.info('response: ' .. utils.to_string(response))
     return {
-      ['Authorization'] = 'Bearer ' .. response.body.token,
+      -- ['Authorization'] = 'Bearer ' .. response.body.token,
+      ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
       ['Editor-Version'] = EDITOR_VERSION,
       ['Editor-Plugin-Version'] = 'CopilotChat.nvim/*',
       ['Copilot-Integration-Id'] = 'vscode-chat',
@@ -308,7 +310,8 @@ M.copilot = {
     local response, err = curl.get('https://' .. MC.config.github_instance_url .. '/copilot_internal/user', {
       json_response = true,
       headers = {
-        ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
+        -- ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
+        ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
       },
     })
 
@@ -776,7 +779,8 @@ M.github_models = {
 
   get_headers = function()
     return {
-      ['Authorization'] = 'Bearer ' .. get_github_models_token('github_models'),
+      -- ['Authorization'] = 'Bearer ' .. get_github_models_token('github_models'),
+      ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
     }
   end,
 
