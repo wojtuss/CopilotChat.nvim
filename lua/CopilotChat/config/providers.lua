@@ -369,6 +369,7 @@ M.copilot = {
       headers = headers,
     })
 
+    log.info('get_models response: ' .. utils.to_string(response))
     if err then
       error(err)
     end
