@@ -67,6 +67,8 @@ M.get = async.wrap(function(url, opts, callback)
     end
   end
 
+  log.info('url: ' .. url)
+  log.info('args: ' .. vim.inspect(args))
   curl.get(url, args)
 end, 3)
 

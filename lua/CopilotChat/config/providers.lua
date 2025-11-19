@@ -6,7 +6,7 @@ local utils = require('CopilotChat.utils')
 local curl = require('CopilotChat.utils.curl')
 local files = require('CopilotChat.utils.files')
 
-local EDITOR_VERSION = 'Neovim/' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
+-- local EDITOR_VERSION = 'Neovim/' .. vim.version().major .. '.' .. vim.version().minor .. '.' .. vim.version().patch
 
 local token_cache = nil
 local unsaved_token_cache = {}
@@ -255,7 +255,7 @@ M.copilot = {
     local response, err = curl.get('https://api.github.com/copilot_internal/v2/token', {
       json_response = true,
       headers = {
-        ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
+        ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
       },
     })
 
@@ -265,7 +265,7 @@ M.copilot = {
 
     return {
       ['Authorization'] = 'Bearer ' .. response.body.token,
-      ['Editor-Version'] = EDITOR_VERSION,
+      -- ['Editor-Version'] = EDITOR_VERSION, -- this breaks the model request if included
       ['Editor-Plugin-Version'] = 'CopilotChat.nvim/*',
       ['Copilot-Integration-Id'] = 'vscode-chat',
     },
@@ -276,7 +276,7 @@ M.copilot = {
     local response, err = curl.get('https://api.github.com/copilot_internal/user', {
       json_response = true,
       headers = {
-        ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
+        ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
       },
     })
 
@@ -323,7 +323,7 @@ M.copilot = {
   end,
 
   get_models = function(headers)
-    local response, err = curl.get('https://api.githubcopilot.com/models', {
+    local response, err = curl.get('https://api.enterprise.githubcopilot.com/models', {
       json_response = true,
       headers = headers,
     })
@@ -368,7 +368,7 @@ M.copilot = {
 
     for _, model in ipairs(models) do
       if not model.policy then
-        pcall(curl.post, 'https://api.githubcopilot.com/models/' .. model.id .. '/policy', {
+        pcall(curl.post, 'https://api.enterprise.githubcopilot.com/models/' .. model.id .. '/policy', {
           headers = headers,
           json_request = true,
           body = { state = 'enabled' },
@@ -725,11 +725,11 @@ M.copilot = {
   get_url = function(opts)
     -- Check if this model uses the Responses API
     if opts and opts.model and opts.model.use_responses then
-      return 'https://api.githubcopilot.com/responses'
+      return 'https://api.enterprise.githubcopilot.com/responses'
     end
 
     -- Default to Chat Completion API
-    return 'https://api.githubcopilot.com/chat/completions'
+    return 'https://api.enterprise.githubcopilot.com/chat/completions'
   end,
 }
 
@@ -738,7 +738,7 @@ M.github_models = {
 
   get_headers = function()
     return {
-      ['Authorization'] = 'Bearer ' .. get_github_models_token('github_models'),
+      ['Authorization'] = 'Bearer ' .. get_github_copilot_token('github_copilot'),
     }
   end,
 
