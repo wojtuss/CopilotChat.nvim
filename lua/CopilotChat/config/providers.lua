@@ -272,7 +272,7 @@ M.copilot = {
     local response, err = curl.get(url, {
       json_response = true,
       headers = {
-        ['Authorization'] = 'Token ' .. get_github_copilot_token(MC.config.github_instance_api_url),
+        ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
       },
     })
 
@@ -307,7 +307,7 @@ M.copilot = {
     local response, err = curl.get('https://' .. MC.config.github_instance_url .. '/copilot_internal/user', {
       json_response = true,
       headers = {
-        ['Authorization'] = 'Token ' .. get_github_copilot_token(MC.config.github_instance_url),
+        ['Authorization'] = 'Token ' .. get_github_copilot_token('github_copilot'),
       },
     })
 
