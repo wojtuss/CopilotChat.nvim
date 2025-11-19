@@ -294,6 +294,7 @@ M.copilot = {
       )
     end
 
+    log.info('response: ' .. utils.to_string(response))
     return {
       ['Authorization'] = 'Bearer ' .. response.body.token,
       ['Editor-Version'] = EDITOR_VERSION,
